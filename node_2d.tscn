@@ -1,0 +1,103 @@
+[gd_scene load_steps=13 format=3 uid="uid://ctn4wm7ekq0sj"]
+
+[ext_resource type="Texture2D" uid="uid://g4udv7lrp23u" path="res://20230722_170055.jpg" id="1_epypp"]
+[ext_resource type="Script" uid="uid://kjhguage8fg1" path="res://player.gd" id="2_0e48y"]
+[ext_resource type="Texture2D" uid="uid://ckrk8lqxxnot4" path="res://sprites/Cyan/sprite_2.png" id="4_rj586"]
+[ext_resource type="Texture2D" uid="uid://b8vcf4p5ebi6o" path="res://sprites/Cyan/sprite_0.png" id="5_4d7sh"]
+[ext_resource type="Texture2D" uid="uid://daf2a18s5trso" path="res://sprites/Cyan/sprite_1.png" id="6_ir8iy"]
+[ext_resource type="Texture2D" uid="uid://bssufr87key12" path="res://sprites/Cyan/sprite_3.png" id="7_hqns4"]
+[ext_resource type="Texture2D" uid="uid://drfi4vmrbjhsd" path="res://grid.png" id="8_rj586"]
+[ext_resource type="Texture2D" uid="uid://bbid6f7kyt0vo" path="res://sprites/Cyan/sprite_4.png" id="8_x0ka3"]
+[ext_resource type="PackedScene" uid="uid://2sfkol33v4n7" path="res://UI.tscn" id="9_4d7sh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0e48y"]
+size = Vector2(20000, 20)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wtcfe"]
+radius = 5.5
+height = 26.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0h7mo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_rj586")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_4d7sh")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_ir8iy")
+}],
+"loop": true,
+"name": &"rise",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_hqns4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_4d7sh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_x0ka3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_4d7sh")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="test" type="Node2D"]
+
+[node name="Grid" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(165, 12)
+texture = ExtResource("8_rj586")
+
+[node name="20230722170055" type="Sprite2D" parent="."]
+position = Vector2(-2.00003, 26)
+scale = Vector2(0.279843, 0.279843)
+texture = ExtResource("1_epypp")
+
+[node name="Ground" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+position = Vector2(0, 38)
+shape = SubResource("RectangleShape2D_0e48y")
+one_way_collision_margin = 0.0
+
+[node name="Player" type="CharacterBody2D" parent="."]
+script = ExtResource("2_0e48y")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(0, -14)
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(0, -11)
+shape = SubResource("CapsuleShape2D_wtcfe")
+one_way_collision_margin = 0.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+texture_filter = 1
+position = Vector2(0, -10)
+sprite_frames = SubResource("SpriteFrames_0h7mo")
+animation = &"walk"
+frame_progress = 0.619686
+
+[node name="CanvasLayer" parent="." instance=ExtResource("9_4d7sh")]
