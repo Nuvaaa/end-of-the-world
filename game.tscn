@@ -200,6 +200,7 @@ position = Vector2(160, 153)
 texture = ExtResource("19_x5p1p")
 
 [node name="Text" type="Label" parent="UI/DialogueBox/Dialogue"]
+layout_mode = 0
 offset_left = 69.0
 offset_top = 129.0
 offset_right = 253.0
