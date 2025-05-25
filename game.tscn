@@ -1,7 +1,8 @@
-[gd_scene load_steps=32 format=3 uid="uid://bwgnq6qm0dskt"]
+[gd_scene load_steps=34 format=3 uid="uid://bwgnq6qm0dskt"]
 
 [ext_resource type="Script" uid="uid://kjhguage8fg1" path="res://player.gd" id="1_ryrav"]
 [ext_resource type="Texture2D" uid="uid://dvya1hd5dgetv" path="res://sprites/Cyan/fall_0.png" id="2_e8heu"]
+[ext_resource type="Texture2D" uid="uid://f07wunq6c5ec" path="res://sprites/Ocean/teeth.png" id="2_f1jbl"]
 [ext_resource type="Texture2D" uid="uid://dbykrsykoow3y" path="res://sprites/Cyan/fall_1.png" id="3_rvswv"]
 [ext_resource type="Texture2D" uid="uid://dr76ref4pvkby" path="res://sprites/Cyan/idle_0.png" id="4_boyg6"]
 [ext_resource type="Texture2D" uid="uid://ck2sc3dj7a8en" path="res://sprites/Cyan/idle_1.png" id="5_e36ub"]
@@ -22,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://bkgepoxotg5o4" path="res://sprites/Interact.png" id="19_hb5m1"]
 [ext_resource type="Texture2D" uid="uid://c7nuucyvu5u5i" path="res://sprites/box.png" id="19_x5p1p"]
 [ext_resource type="Texture2D" uid="uid://c4j6aus6ej1o5" path="res://sprites/Red/idle_1.png" id="20_hb5m1"]
+[ext_resource type="Texture2D" uid="uid://bih28g1sg3rgp" path="res://sprites/Ocean/sky.png" id="23_qhcbd"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_iotsf"]
 animations = [{
@@ -95,19 +97,8 @@ animations = [{
 radius = 5.5
 height = 24.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_j5wjh"]
-size = Vector2(1078, 1022)
-
-[sub_resource type="LabelSettings" id="LabelSettings_eow3j"]
-font_size = 10
-outline_size = 1
-outline_color = Color(0, 0, 0, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_iotsf"]
-line_spacing = -2.0
-font_size = 6
-
-[sub_resource type="ImageTexture" id="ImageTexture_hb5m1"]
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_f1jbl"]
+distance = -104.0
 
 [sub_resource type="GDScript" id="GDScript_mfdv2"]
 script/source = "extends Area2D
@@ -139,10 +130,43 @@ animations = [{
 "speed": 1.0
 }]
 
+[sub_resource type="LabelSettings" id="LabelSettings_eow3j"]
+font_size = 10
+outline_size = 1
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_iotsf"]
+line_spacing = -2.0
+font_size = 6
+
+[sub_resource type="ImageTexture" id="ImageTexture_hb5m1"]
+
 [node name="Node2D" type="Node2D"]
 
+[node name="Sky" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.01, 0.01)
+scroll_offset = Vector2(-262, -72)
+repeat_size = Vector2(640, 0)
+repeat_times = 5
+
+[node name="Sky" type="Sprite2D" parent="Sky"]
+texture_filter = 1
+position = Vector2(892, 56)
+texture = ExtResource("23_qhcbd")
+
+[node name="Teeth" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.2, 0.2)
+scroll_offset = Vector2(-262, -99)
+repeat_size = Vector2(640, 0)
+repeat_times = 5
+
+[node name="Teeth" type="Sprite2D" parent="Teeth"]
+texture_filter = 1
+position = Vector2(892, 66)
+texture = ExtResource("2_f1jbl")
+
 [node name="Player" type="CharacterBody2D" parent="."]
-position = Vector2(1060, 133)
+position = Vector2(160, 111)
 script = ExtResource("1_ryrav")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
@@ -158,18 +182,46 @@ one_way_collision_margin = 0.0
 debug_color = Color(0.725017, 0.403927, 0.663884, 0.42)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(0, -21)
 position_smoothing_enabled = true
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2(1060, 133)
+[node name="Ground" type="StaticBody2D" parent="."]
+position = Vector2(158, 23)
 
-[node name="20230722170055" type="Sprite2D" parent="StaticBody2D"]
-position = Vector2(51, 614)
+[node name="Parallax2D" type="Parallax2D" parent="Ground"]
+scroll_offset = Vector2(0, 614)
+repeat_size = Vector2(1078, 0)
+repeat_times = 51
+
+[node name="20230722170055" type="Sprite2D" parent="Ground/Parallax2D"]
 texture = ExtResource("7_eow3j")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(51, 614)
-shape = SubResource("RectangleShape2D_j5wjh")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+position = Vector2(0, -1)
+shape = SubResource("WorldBoundaryShape2D_f1jbl")
+
+[node name="TestDialogue" type="Area2D" parent="."]
+position = Vector2(423, 123)
+script = SubResource("GDScript_mfdv2")
+
+[node name="Interact" type="Sprite2D" parent="TestDialogue"]
+texture_filter = 1
+position = Vector2(4, -40)
+scale = Vector2(1, 1.05556)
+texture = ExtResource("19_hb5m1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TestDialogue"]
+position = Vector2(4, -27.5)
+shape = SubResource("RectangleShape2D_x5p1p")
+debug_color = Color(0.57036, 0.555939, 3.85046e-07, 0.42)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="TestDialogue"]
+texture_filter = 1
+position = Vector2(0, -23)
+sprite_frames = SubResource("SpriteFrames_qhcbd")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.571936
 
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource("8_j5wjh")
@@ -207,39 +259,17 @@ offset_right = 253.0
 offset_bottom = 175.0
 text = "(You should go put on your hat"
 label_settings = SubResource("LabelSettings_iotsf")
+autowrap_mode = 3
 
 [node name="Portrait" type="Sprite2D" parent="UI/DialogueBox/Dialogue"]
 position = Vector2(0, 180)
 texture = SubResource("ImageTexture_hb5m1")
 
-[node name="TestDialogue" type="Area2D" parent="."]
-position = Vector2(1325, 232)
-script = SubResource("GDScript_mfdv2")
-
-[node name="Interact" type="Sprite2D" parent="TestDialogue"]
-texture_filter = 1
-position = Vector2(4, -40)
-scale = Vector2(1, 1.05556)
-texture = ExtResource("19_hb5m1")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TestDialogue"]
-position = Vector2(4, -27.5)
-shape = SubResource("RectangleShape2D_x5p1p")
-debug_color = Color(0.57036, 0.555939, 3.85046e-07, 0.42)
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="TestDialogue"]
-texture_filter = 1
-position = Vector2(0, -23)
-sprite_frames = SubResource("SpriteFrames_qhcbd")
-animation = &"idle"
-autoplay = "idle"
-frame_progress = 0.571936
-
 [connection signal="Start_Dialogue" from="Player" to="UI/DialogueBox" method="_on_player_start_dialogue"]
 [connection signal="VelX" from="Player" to="UI" method="_on_player_vel_x"]
 [connection signal="VelY" from="Player" to="UI" method="_on_player_vel_y"]
-[connection signal="dialogue_ended" from="UI/DialogueBox" to="Player" method="_on_dialogue_box_dialogue_ended"]
 [connection signal="body_entered" from="TestDialogue" to="Player" method="_on_test_dialogue_body_entered"]
 [connection signal="body_entered" from="TestDialogue" to="TestDialogue" method="_on_body_entered"]
 [connection signal="body_exited" from="TestDialogue" to="Player" method="_on_test_dialogue_body_exited"]
 [connection signal="body_exited" from="TestDialogue" to="TestDialogue" method="_on_body_exited"]
+[connection signal="dialogue_ended" from="UI/DialogueBox" to="Player" method="_on_dialogue_box_dialogue_ended"]

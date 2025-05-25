@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c8l5j3y5s5c67"
-path="res://.godot/imported/joy.png-266b9ca6ba4e0f5891b837ba4f0d6fc5.ctex"
+uid="uid://bih28g1sg3rgp"
+path="res://.godot/imported/sky.png-ffb8e68e46cb848d19a757f6752a67d1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/dialogue/Cyan/joy.png"
-dest_files=["res://.godot/imported/joy.png-266b9ca6ba4e0f5891b837ba4f0d6fc5.ctex"]
+source_file="res://sprites/Ocean/sky.png"
+dest_files=["res://.godot/imported/sky.png-ffb8e68e46cb848d19a757f6752a67d1.ctex"]
 
 [params]
 
