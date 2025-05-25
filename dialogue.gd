@@ -43,7 +43,11 @@ func _input(event):
 	if !d_active:
 		return false
 	if event.is_action_pressed("interact"):
-		next_line()
+		if tempText == "":
+			next_line()
+		else:
+			$Dialogue/Text.text = dialogue[current_line]['text']
+			tempText = ""
 
 func _on_player_start_dialogue(value: Variant) -> void:
 	dialogue = load_file(value)

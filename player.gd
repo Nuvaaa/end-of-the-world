@@ -16,6 +16,7 @@ var dialogue_cooldown = false
 
 func _ready():
 	$AnimatedSprite2D.play()
+	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 
 func _on_test_dialogue_body_entered(body: Node2D) -> void:
 	dialogue = "TestDialogue"
