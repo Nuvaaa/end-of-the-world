@@ -4,9 +4,14 @@ signal dialogue_ended
 var current_line = -1
 var d_active = false
 var dialogue = []
+var offset
 
 func _ready():
-	$Box1.visible = false
+	$Dialogue.visible = false
+
+func show():
+	offset = $Dialogue/Portrait.offset.x
+	$Dialogue/Portrait.offset.x -= 10
 
 func load_file(file):
 	var d_file = FileAccess.open("res://dialogue/" + file + ".json", FileAccess.READ)
@@ -17,10 +22,16 @@ func next_line():
 	current_line += 1
 	if current_line >= len(dialogue):
 		d_active = false
-		$Box1.visible = false
+		$Dialogue.visible = false
 		emit_signal("dialogue_ended")
 		return false
-	$Box1/Box2/Box3/Text.text = dialogue[current_line]['text']
+		
+	$Dialogue/Portrait.texture = load("res://sprites/dialogue/" + dialogue[current_line]['character'] + "/" + dialogue[current_line]['emotion'] + ".png")
+	$Dialogue/Portrait.scale = Vector2(dialogue[current_line]['scale'], dialogue[current_line]['scale'])
+	$Dialogue/Portrait.offset.x = $Dialogue/Portrait.texture.get_width() / 2
+	$Dialogue/Portrait.offset.y = $Dialogue/Portrait.texture.get_height() / -2
+	
+	$Dialogue/Text.text = dialogue[current_line]['text']
 
 func _input(event):
 	if !d_active:
@@ -32,7 +43,7 @@ func _on_player_start_dialogue(value: Variant) -> void:
 	dialogue = load_file(value)
 	current_line = -1
 	next_line()
-	$Box1.visible = true
+	$Dialogue.visible = true
 	d_active = true
 
 #func change_text():
