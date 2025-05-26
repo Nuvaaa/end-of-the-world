@@ -33,9 +33,10 @@ func next_line():
 	$Dialogue/Portrait.scale = Vector2(dialogue[current_line]['scale'], dialogue[current_line]['scale'])
 	$Dialogue/Portrait.offset.x = $Dialogue/Portrait.texture.get_width() / 2
 	$Dialogue/Portrait.offset.y = $Dialogue/Portrait.texture.get_height() / -2
-	if $Dialogue/Portrait.texture != lastPortrait:
+	
+	if dialogue[current_line]['character'] != lastPortrait:
 		$Dialogue/Portrait.position.x = portraitX - 2
-	lastPortrait = $Dialogue/Portrait.texture
+	lastPortrait = dialogue[current_line]['character']
 	
 	tempText = dialogue[current_line]['text']
 
@@ -58,6 +59,9 @@ func _on_player_start_dialogue(value: Variant) -> void:
 
 func text():
 	if tempText != "":
+		while tempText[0] == " ":
+			$Dialogue/Text.text = $Dialogue/Text.text + tempText[0]
+			tempText = tempText.erase(0, 1)
 		$Dialogue/Text.text = $Dialogue/Text.text + tempText[0]
 		tempText = tempText.erase(0, 1)
 

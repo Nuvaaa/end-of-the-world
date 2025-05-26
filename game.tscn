@@ -183,6 +183,7 @@ debug_color = Color(0.725017, 0.403927, 0.663884, 0.42)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(0, -21)
+limit_smoothed = true
 position_smoothing_enabled = true
 
 [node name="Ground" type="StaticBody2D" parent="."]
