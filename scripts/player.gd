@@ -56,7 +56,7 @@ func input():
 	if Input.is_action_pressed("move_right"):
 		$AnimatedSprite2D.flip_h = false
 	
-func _on_dialogue_box_dialogue_ended() -> void:
+func _on_dialogue_ended() -> void:
 	block_input -= 1
 	dialogue_cooldown = 1
 
