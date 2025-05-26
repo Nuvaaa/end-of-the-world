@@ -65,7 +65,7 @@ func text():
 		$Dialogue/Text.text = $Dialogue/Text.text + tempText[0]
 		tempText = tempText.erase(0, 1)
 
-func _process(delta):
+func _process(_delta):
 	if appear:
 		if $Dialogue/Portrait.self_modulate.a < 1:
 			$Dialogue/Portrait.self_modulate.a += 0.2

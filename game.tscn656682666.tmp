@@ -28,23 +28,6 @@
 [ext_resource type="Texture2D" uid="uid://bjyaw236ycqxc" path="res://sprites/Green/idle_1.png" id="21_xa8c5"]
 [ext_resource type="Texture2D" uid="uid://bih28g1sg3rgp" path="res://sprites/Ocean/sky.png" id="23_qhcbd"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_x5p1p"]
-size = Vector2(76, 59)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_5b14r"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("20_i2p71")
-}, {
-"duration": 1.0,
-"texture": ExtResource("21_xa8c5")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 1.0
-}]
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lc2xo"]
 radius = 5.5
 height = 24.0
@@ -117,6 +100,26 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_f1jbl"]
+distance = -104.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x5p1p"]
+size = Vector2(76, 59)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5b14r"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("20_i2p71")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_xa8c5")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 1.0
+}]
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_qhcbd"]
 animations = [{
 "frames": [{
@@ -130,9 +133,6 @@ animations = [{
 "name": &"idle",
 "speed": 1.0
 }]
-
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_f1jbl"]
-distance = -104.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_eow3j"]
 font_size = 10
@@ -169,29 +169,6 @@ texture_filter = 1
 position = Vector2(892, 66)
 texture = ExtResource("2_f1jbl")
 
-[node name="Green" type="Area2D" parent="."]
-position = Vector2(549, 95)
-script = ExtResource("19_xa8c5")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Green"]
-position = Vector2(1, -0.249985)
-shape = SubResource("RectangleShape2D_x5p1p")
-debug_color = Color(0.57036, 0.555939, 3.85046e-07, 0.42)
-
-[node name="Interact" type="Sprite2D" parent="Green"]
-texture_filter = 1
-position = Vector2(0.5, -3.24998)
-scale = Vector2(1, 1.05556)
-texture = ExtResource("19_hb5m1")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Green"]
-texture_filter = 1
-position = Vector2(0, 15.5)
-sprite_frames = SubResource("SpriteFrames_5b14r")
-animation = &"idle"
-autoplay = "idle"
-frame_progress = 0.429632
-
 [node name="Player" type="CharacterBody2D" parent="."]
 position = Vector2(160, 111)
 script = ExtResource("1_ryrav")
@@ -212,6 +189,44 @@ frame_progress = 0.261077
 position = Vector2(0, -21)
 limit_smoothed = true
 position_smoothing_enabled = true
+
+[node name="Ground" type="StaticBody2D" parent="."]
+position = Vector2(158, 23)
+
+[node name="Parallax2D" type="Parallax2D" parent="Ground"]
+scroll_offset = Vector2(0, 614)
+repeat_size = Vector2(1078, 0)
+repeat_times = 51
+
+[node name="20230722170055" type="Sprite2D" parent="Ground/Parallax2D"]
+texture = ExtResource("7_eow3j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+position = Vector2(0, -1)
+shape = SubResource("WorldBoundaryShape2D_f1jbl")
+
+[node name="Green" type="Area2D" parent="."]
+position = Vector2(865, 246)
+script = ExtResource("19_xa8c5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Green"]
+position = Vector2(-328, -150.75)
+shape = SubResource("RectangleShape2D_x5p1p")
+debug_color = Color(0.57036, 0.555939, 3.85046e-07, 0.42)
+
+[node name="Interact" type="Sprite2D" parent="Green"]
+texture_filter = 1
+position = Vector2(-328.5, -153.75)
+scale = Vector2(1, 1.05556)
+texture = ExtResource("19_hb5m1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Green"]
+texture_filter = 1
+position = Vector2(-329, -135)
+sprite_frames = SubResource("SpriteFrames_5b14r")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.429632
 
 [node name="Red" type="Area2D" parent="."]
 position = Vector2(423, 123)
@@ -235,21 +250,6 @@ sprite_frames = SubResource("SpriteFrames_qhcbd")
 animation = &"idle"
 autoplay = "idle"
 frame_progress = 0.379744
-
-[node name="Ground" type="StaticBody2D" parent="."]
-position = Vector2(158, 23)
-
-[node name="Parallax2D" type="Parallax2D" parent="Ground"]
-scroll_offset = Vector2(0, 614)
-repeat_size = Vector2(1078, 0)
-repeat_times = 51
-
-[node name="20230722170055" type="Sprite2D" parent="Ground/Parallax2D"]
-texture = ExtResource("7_eow3j")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
-position = Vector2(0, -1)
-shape = SubResource("WorldBoundaryShape2D_f1jbl")
 
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource("8_j5wjh")
@@ -293,15 +293,15 @@ autowrap_mode = 3
 position = Vector2(0, 180)
 texture = SubResource("ImageTexture_hb5m1")
 
+[connection signal="PosX" from="Player" to="Green" method="_on_player_pos_x"]
+[connection signal="Start_Dialogue" from="Player" to="UI/DialogueBox" method="_on_player_start_dialogue"]
+[connection signal="VelX" from="Player" to="UI" method="_on_player_vel_x"]
+[connection signal="VelY" from="Player" to="UI" method="_on_player_vel_y"]
 [connection signal="body_entered" from="Green" to="Player" method="_on_test_dialogue_body_entered"]
 [connection signal="body_entered" from="Green" to="Green" method="_on_body_entered"]
 [connection signal="body_exited" from="Green" to="Player" method="_on_test_dialogue_body_exited"]
 [connection signal="body_exited" from="Green" to="Green" method="_on_body_exited"]
 [connection signal="dialogue" from="Green" to="Player" method="_on_npc_dialogue_range"]
-[connection signal="PosX" from="Player" to="Green" method="_on_player_pos_x"]
-[connection signal="Start_Dialogue" from="Player" to="UI/DialogueBox" method="_on_player_start_dialogue"]
-[connection signal="VelX" from="Player" to="UI" method="_on_player_vel_x"]
-[connection signal="VelY" from="Player" to="UI" method="_on_player_vel_y"]
 [connection signal="body_entered" from="Red" to="Player" method="_on_test_dialogue_body_entered"]
 [connection signal="body_entered" from="Red" to="Red" method="_on_body_entered"]
 [connection signal="body_exited" from="Red" to="Player" method="_on_test_dialogue_body_exited"]

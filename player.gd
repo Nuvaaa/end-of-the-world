@@ -1,6 +1,8 @@
 extends CharacterBody2D
 signal VelX(value)
 signal VelY(value)
+
+signal PosX(value)
 signal Start_Dialogue(value)
 
 var block_input = 0
@@ -17,12 +19,6 @@ var dialogue_cooldown = false
 func _ready():
 	$AnimatedSprite2D.play()
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
-
-func _on_test_dialogue_body_entered(body: Node2D) -> void:
-	dialogue = "TestDialogue"
-	
-func _on_test_dialogue_body_exited(body: Node2D) -> void:
-	dialogue = null
 
 func input():
 	if block_input > 0:
@@ -91,6 +87,10 @@ func _physics_process(_delta):
 		else:
 			$AnimatedSprite2D.animation = "fall"
 	
-	emit_signal("VelX" ,velocity.x)
-	emit_signal("VelY" ,velocity.y)
+	emit_signal("VelX", velocity.x)
+	emit_signal("VelY", velocity.y)
+	emit_signal("PosX", position.x)
 	move_and_slide()
+
+func _on_npc_dialogue_range(name):
+	dialogue = name
