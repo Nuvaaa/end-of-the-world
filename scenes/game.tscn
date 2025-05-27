@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://bwgnq6qm0dskt"]
+[gd_scene load_steps=42 format=3 uid="uid://bwgnq6qm0dskt"]
 
 [ext_resource type="Texture2D" uid="uid://bih28g1sg3rgp" path="res://sprites/Ocean/sky.png" id="1_pl11u"]
 [ext_resource type="Texture2D" uid="uid://f07wunq6c5ec" path="res://sprites/Ocean/teeth.png" id="2_bhx41"]
@@ -10,7 +10,10 @@
 [ext_resource type="Texture2D" uid="uid://dvya1hd5dgetv" path="res://sprites/Cyan/fall_0.png" id="8_wljb1"]
 [ext_resource type="Texture2D" uid="uid://dbykrsykoow3y" path="res://sprites/Cyan/fall_1.png" id="9_v2yb1"]
 [ext_resource type="Texture2D" uid="uid://dr76ref4pvkby" path="res://sprites/Cyan/idle_0.png" id="10_js0lu"]
+[ext_resource type="Texture2D" uid="uid://sopqg0a05my4" path="res://sprites/Cyan/hover_0.png" id="10_sww3w"]
 [ext_resource type="Texture2D" uid="uid://ck2sc3dj7a8en" path="res://sprites/Cyan/idle_1.png" id="11_gxtfn"]
+[ext_resource type="Texture2D" uid="uid://l6gt14vbvar2" path="res://sprites/Cyan/hover_1.png" id="11_suyxu"]
+[ext_resource type="Texture2D" uid="uid://bt0rksgkuuo1n" path="res://sprites/Cyan/hover_2.png" id="12_sgl2t"]
 [ext_resource type="Texture2D" uid="uid://c5aq62qa8kc33" path="res://sprites/Cyan/idle_2.png" id="12_twgab"]
 [ext_resource type="Texture2D" uid="uid://b3gnfncx1bjm7" path="res://sprites/Cyan/jump_0.png" id="13_02fa5"]
 [ext_resource type="Texture2D" uid="uid://blyx82jpavsty" path="res://sprites/Cyan/jump_1.png" id="14_nepv3"]
@@ -25,9 +28,7 @@
 [ext_resource type="Texture2D" uid="uid://c4j6aus6ej1o5" path="res://sprites/Red/idle_1.png" id="23_h3rex"]
 [ext_resource type="Script" uid="uid://cve6y0gwev13r" path="res://scripts/UI.gd" id="24_fedci"]
 [ext_resource type="Texture2D" uid="uid://c7nuucyvu5u5i" path="res://sprites/box.png" id="25_8qswn"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_x5p1p"]
-size = Vector2(76, 59)
+[ext_resource type="Texture2D" uid="uid://cxn1qx745xi8f" path="res://sprites/smoke.png" id="25_suyxu"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5b14r"]
 animations = [{
@@ -42,6 +43,9 @@ animations = [{
 "name": &"idle",
 "speed": 1.0
 }]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x5p1p"]
+size = Vector2(76, 59)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lc2xo"]
 radius = 5.5
@@ -59,6 +63,20 @@ animations = [{
 "loop": true,
 "name": &"fall",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_sww3w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_suyxu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_sgl2t")
+}],
+"loop": true,
+"name": &"hover",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -114,6 +132,29 @@ animations = [{
 "name": &"walk",
 "speed": 10.0
 }]
+
+[sub_resource type="Curve" id="Curve_sww3w"]
+_data = [Vector2(0.525926, 1), 0.0, 0.0233362, 0, 0, Vector2(1, 0), -2.83146, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_suyxu"]
+curve = SubResource("Curve_sww3w")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sww3w"]
+particle_flag_disable_z = true
+angle_min = -720.0
+angle_max = 720.0
+inherit_velocity_ratio = 0.5
+direction = Vector3(1, 1, 1)
+spread = 180.0
+initial_velocity_min = 48.28
+initial_velocity_max = 94.43
+angular_velocity_min = -91.56
+angular_velocity_max = 70.75
+gravity = Vector3(0, -20, 0)
+damping_min = 69.942
+damping_max = 100.0
+scale_curve = SubResource("CurveTexture_suyxu")
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_qhcbd"]
 animations = [{
@@ -171,11 +212,6 @@ texture = ExtResource("2_bhx41")
 position = Vector2(549, 95)
 script = ExtResource("3_qnb83")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Green"]
-position = Vector2(1, -0.249985)
-shape = SubResource("RectangleShape2D_x5p1p")
-debug_color = Color(0.57036, 0.555939, 3.85046e-07, 0.42)
-
 [node name="Interact" type="Sprite2D" parent="Green"]
 texture_filter = 1
 position = Vector2(0.5, -3.24998)
@@ -184,11 +220,16 @@ texture = ExtResource("4_sww3w")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Green"]
 texture_filter = 1
-position = Vector2(0, 15.5)
+position = Vector2(0, 16)
 sprite_frames = SubResource("SpriteFrames_5b14r")
 animation = &"idle"
 autoplay = "idle"
 frame_progress = 0.429632
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Green"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_x5p1p")
+debug_color = Color(0.57036, 0.555939, 3.85046e-07, 0.42)
 
 [node name="Player" type="CharacterBody2D" parent="."]
 position = Vector2(160, 111)
@@ -204,7 +245,55 @@ debug_color = Color(0.725017, 0.403927, 0.663884, 0.42)
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_iotsf")
 animation = &"idle"
-frame_progress = 0.261077
+frame_progress = 0.836179
+
+[node name="GPUParticles2D1" type="GPUParticles2D" parent="Player"]
+texture_filter = 1
+position = Vector2(0, -14)
+scale = Vector2(0.5, 0.5)
+emitting = false
+amount = 5
+sub_emitter = NodePath(".")
+texture = ExtResource("25_suyxu")
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_sww3w")
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="Player"]
+texture_filter = 1
+position = Vector2(0, -14)
+scale = Vector2(0.5, 0.5)
+emitting = false
+amount = 5
+sub_emitter = NodePath(".")
+texture = ExtResource("25_suyxu")
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_sww3w")
+
+[node name="GPUParticles2D3" type="GPUParticles2D" parent="Player"]
+texture_filter = 1
+position = Vector2(0, -14)
+scale = Vector2(0.5, 0.5)
+emitting = false
+amount = 5
+sub_emitter = NodePath(".")
+texture = ExtResource("25_suyxu")
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_sww3w")
+
+[node name="GPUParticles2D4" type="GPUParticles2D" parent="Player"]
+texture_filter = 1
+position = Vector2(0, -14)
+scale = Vector2(0.5, 0.5)
+emitting = false
+amount = 5
+sub_emitter = NodePath(".")
+texture = ExtResource("25_suyxu")
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_sww3w")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(0, -21)
@@ -239,8 +328,14 @@ position = Vector2(158, 23)
 
 [node name="Parallax2D" type="Parallax2D" parent="Ground"]
 scroll_offset = Vector2(0, 614)
-repeat_size = Vector2(1078, 0)
+repeat_size = Vector2(640, 0)
 repeat_times = 51
+
+[node name="Teeth2" type="Sprite2D" parent="Ground/Parallax2D"]
+texture_filter = 1
+position = Vector2(2, -331)
+scale = Vector2(-1, -1)
+texture = ExtResource("2_bhx41")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
 position = Vector2(0, -1)

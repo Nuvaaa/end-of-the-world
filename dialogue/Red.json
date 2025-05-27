@@ -1,3 +1,5 @@
 [
-	{"scale" : 0.07, "character" : "Cyan", "emotion" : "happy", "text" : "holy shit its red"}
+	{"scale" : 0.07, "character" : "Cyan", "emotion" : "happy", "text" : "holy shit its red"},
+	{"character" : "None", "text" : "hey im gone"},
+	{"scale" : 0.07, "character" : "Cyan", "emotion" : "happy", "text" : "hey im back"}
 ]

@@ -16,6 +16,10 @@ var spawnpoint = position
 var dialogue
 var dialogue_cooldown = false
 
+var hover = false
+var thover = false
+var smokeParticle = 1
+
 func _ready():
 	$AnimatedSprite2D.play()
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
@@ -45,11 +49,32 @@ func input():
 			velocity.x = speed * -1
 		else:
 			velocity.x = 0
+			
+		hover = false
 	else:
 		if Input.is_action_pressed("move_right") and velocity.x < speed:
 			velocity.x += speed / 30
 		elif Input.is_action_pressed("move_left") and velocity.x > speed * -1:
 			velocity.x -= speed / 30
+		
+		if !hover and Input.is_action_pressed("special") and velocity.y >= 0:
+			hover = true
+			
+	if hover != thover:
+		if smokeParticle == 1:
+			$GPUParticles2D1.emitting = true
+			smokeParticle = 2
+		elif smokeParticle == 2: 
+			$GPUParticles2D2.emitting = true
+			smokeParticle = 3
+		elif smokeParticle == 3: 
+			$GPUParticles2D3.emitting = true
+			smokeParticle = 4
+		elif smokeParticle == 4: 
+			$GPUParticles2D4.emitting = true
+			smokeParticle = 1
+		thover = hover
+		
 	
 	if Input.is_action_pressed("move_left"):
 		$AnimatedSprite2D.flip_h = true
@@ -61,11 +86,16 @@ func _on_dialogue_ended() -> void:
 	dialogue_cooldown = 1
 
 func _physics_process(_delta):
-	
 	if is_on_floor():
 		velocity.y = 0
-	elif velocity.y < maxSpeed:
+	elif velocity.y < maxSpeed and !hover:
 		velocity.y += gravity
+	elif velocity.y > maxSpeed and !hover:
+		velocity.y = maxSpeed
+	elif velocity.y < maxSpeed / 6 and hover:
+		velocity.y += gravity / 2
+	elif velocity.y > maxSpeed / 6 and hover:
+		velocity.y = maxSpeed / 6
 	
 	input()
 	
@@ -76,16 +106,24 @@ func _physics_process(_delta):
 	if velocity.y > speed * 3:
 		velocity.y = speed * 3
 	
+	
 	if is_on_floor():
 		if velocity.x != 0:
 			$AnimatedSprite2D.animation = "walk"
 		else:
 			$AnimatedSprite2D.animation = "idle"
-	else:
+	elif !hover:
 		if velocity.y < 0:
 			$AnimatedSprite2D.animation = "rise"
 		else:
 			$AnimatedSprite2D.animation = "fall"
+	if hover:
+		$AnimatedSprite2D.animation = "hover"
+		$AnimatedSprite2D.offset.x = 1
+		$AnimatedSprite2D.offset.y = -4
+	else:
+		$AnimatedSprite2D.offset.x = 0
+		$AnimatedSprite2D.offset.y = 0
 	
 	emit_signal("VelX", velocity.x)
 	emit_signal("VelY", velocity.y)

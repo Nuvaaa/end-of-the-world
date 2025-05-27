@@ -6,6 +6,7 @@ var current_line = -1
 var d_active = false
 var dialogue = []
 var appear = false
+var portrait = false
 var tempText = ""
 var portraitX = 0
 var lastPortrait
@@ -32,14 +33,19 @@ func next_line():
 	if current_line >= len(dialogue):
 		d_active = false
 		appear = false
+		portrait = false
 		$DialogueBox/Text.visible = false
 		emit_signal("dialogue_ended")
 		return false
-		
-	$DialogueBox/Portrait.texture = load("res://sprites/dialogue/" + dialogue[current_line]['character'] + "/" + dialogue[current_line]['emotion'] + ".png")
-	$DialogueBox/Portrait.scale = Vector2(dialogue[current_line]['scale'], dialogue[current_line]['scale'])
-	$DialogueBox/Portrait.offset.x = $DialogueBox/Portrait.texture.get_width() / 2
-	$DialogueBox/Portrait.offset.y = $DialogueBox/Portrait.texture.get_height() / -2
+	
+	if dialogue[current_line]['character'] != "None":
+		portrait = true
+		$DialogueBox/Portrait.texture = load("res://sprites/dialogue/" + dialogue[current_line]['character'] + "/" + dialogue[current_line]['emotion'] + ".png")
+		$DialogueBox/Portrait.scale = Vector2(dialogue[current_line]['scale'], dialogue[current_line]['scale'])
+		$DialogueBox/Portrait.offset.x = $DialogueBox/Portrait.texture.get_width() / 2
+		$DialogueBox/Portrait.offset.y = $DialogueBox/Portrait.texture.get_height() / -2
+	else:
+		portrait = false
 	
 	if dialogue[current_line]['character'] != lastPortrait:
 		$DialogueBox/Portrait.position.x = portraitX - 2
@@ -74,15 +80,23 @@ func text():
 
 func _process(_delta):
 	if appear:
-		if $DialogueBox/Portrait.self_modulate.a < 1:
-			$DialogueBox/Portrait.self_modulate.a += 0.2
+		if $DialogueBox/Box.scale.y < 1:
 			$DialogueBox/Box.scale.y += 0.2
-		if $DialogueBox/Portrait.self_modulate.a > 1:
-			$DialogueBox/Portrait.self_modulate.a = 1
+		if $DialogueBox/Box.scale.y > 1:
 			$DialogueBox/Box.scale.y = 1
-		if $DialogueBox/Portrait.self_modulate.a == 1:
+		if $DialogueBox/Box.scale.y == 1:
 			$DialogueBox/Text.visible = true
 			text()
+	else:
+		if $DialogueBox/Box.scale.y > 0:
+			$DialogueBox/Box.scale.y -= 0.2
+		if $DialogueBox/Box.scale.y < 0:
+			$DialogueBox/Box.scale.y = 0
+	if portrait:
+		if $DialogueBox/Portrait.self_modulate.a < 1:
+			$DialogueBox/Portrait.self_modulate.a += 0.2
+		if $DialogueBox/Portrait.self_modulate.a > 1:
+			$DialogueBox/Portrait.self_modulate.a = 1
 		if $DialogueBox/Portrait.position.x < portraitX:
 			$DialogueBox/Portrait.position.x += 0.4
 		if $DialogueBox/Portrait.position.x > portraitX:
@@ -90,10 +104,8 @@ func _process(_delta):
 	else:
 		if $DialogueBox/Portrait.self_modulate.a > 0:
 			$DialogueBox/Portrait.self_modulate.a -= 0.2
-			$DialogueBox/Box.scale.y -= 0.2
 		if $DialogueBox/Portrait.self_modulate.a < 0:
 			$DialogueBox/Portrait.self_modulate.a = 0
-			$DialogueBox/Box.scale.y = 0
 		if $DialogueBox/Portrait.position.x > portraitX - 2:
 			$DialogueBox/Portrait.position.x -= 0.4
 		if $DialogueBox/Portrait.position.x < portraitX - 2:
