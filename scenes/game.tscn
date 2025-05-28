@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://bwgnq6qm0dskt"]
+[gd_scene load_steps=48 format=4 uid="uid://bwgnq6qm0dskt"]
 
 [ext_resource type="Texture2D" uid="uid://bih28g1sg3rgp" path="res://sprites/Ocean/sky.png" id="1_pl11u"]
 [ext_resource type="Texture2D" uid="uid://f07wunq6c5ec" path="res://sprites/Ocean/teeth.png" id="2_bhx41"]
@@ -27,10 +27,31 @@
 [ext_resource type="Script" uid="uid://cve6y0gwev13r" path="res://scripts/UI.gd" id="24_fedci"]
 [ext_resource type="Script" uid="uid://cl4w8itlllxt4" path="res://scripts/red.gd" id="24_wljb1"]
 [ext_resource type="Texture2D" uid="uid://c7nuucyvu5u5i" path="res://sprites/box.png" id="25_8qswn"]
+[ext_resource type="Texture2D" uid="uid://b0dpk4mm7mlp1" path="res://sprites/tempTerrain.png" id="25_v2yb1"]
 [ext_resource type="Texture2D" uid="uid://ceyugct46dhbb" path="res://sprites/Red/hover_0.png" id="25_wljb1"]
 [ext_resource type="Texture2D" uid="uid://cescip2t350lm" path="res://sprites/Red/float_0.png" id="26_sgl2t"]
 [ext_resource type="Texture2D" uid="uid://0nsx5o3y0ki8" path="res://sprites/Red/hover_1.png" id="26_v2yb1"]
 [ext_resource type="Texture2D" uid="uid://u1kmj0sc17x3" path="res://sprites/Red/hover_2.png" id="27_js0lu"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_js0lu"]
+texture = ExtResource("25_v2yb1")
+0:0/0 = 0
+1:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+0:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_gxtfn"]
+sources/0 = SubResource("TileSetAtlasSource_js0lu")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_js0lu"]
+size = Vector2(32, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v2yb1"]
+size = Vector2(16, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wljb1"]
+size = Vector2(944, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x5p1p"]
 size = Vector2(76, 59)
@@ -50,7 +71,7 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lc2xo"]
-radius = 5.5
+radius = 6.0
 height = 24.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_iotsf"]
@@ -143,9 +164,6 @@ animations = [{
 "speed": 1.0
 }]
 
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_f1jbl"]
-distance = -104.0
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_gxtfn"]
 animations = [{
 "frames": [{
@@ -207,6 +225,51 @@ repeat_times = 5
 texture_filter = 1
 position = Vector2(892, 66)
 texture = ExtResource("2_bhx41")
+
+[node name="Ground" type="StaticBody2D" parent="."]
+position = Vector2(158, 23)
+
+[node name="background tiles" type="TileMapLayer" parent="Ground"]
+texture_filter = 1
+tile_map_data = PackedByteArray("AADy/wYAAAAAAAIAAADy/wUAAAAAAAIAAADz/wUAAAAAAAIAAADz/wYAAAAAAAIAAAD0/wYAAAAAAAIAAAD0/wUAAAAAAAIAAAD1/wUAAAAAAAIAAAD1/wYAAAAAAAIAAAD0/wQAAAAAAAIAAAD0/wMAAAAAAAIAAAD0/wIAAAAAAAIAAAD0/wEAAAAAAAIAAAD0/wAAAAAAAAIAAAD0////AAAAAAIAAADz////AAAAAAIAAADz/wAAAAAAAAIAAADz/wEAAAAAAAIAAADz/wIAAAAAAAIAAADz/wMAAAAAAAIAAADz/wQAAAAAAAIAAADy/wQAAAAAAAIAAADy/wMAAAAAAAIAAADy/wIAAAAAAAIAAADy/wEAAAAAAAIAAADy/wAAAAAAAAIAAADy////AAAAAAIAAAD1////AAAAAAIAAAD1/wAAAAAAAAIAAAD1/wEAAAAAAAIAAAD1/wIAAAAAAAIAAAD1/wMAAAAAAAIAAAD1/wQAAAAAAAIAAAA=")
+tile_set = SubResource("TileSet_gxtfn")
+
+[node name="tiles" type="TileMapLayer" parent="Ground"]
+texture_filter = 1
+tile_map_data = PackedByteArray("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")
+tile_set = SubResource("TileSet_gxtfn")
+
+[node name="CollisionShape2D7" type="CollisionShape2D" parent="Ground"]
+position = Vector2(-192, 18)
+shape = SubResource("RectangleShape2D_js0lu")
+one_way_collision = true
+
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="Ground"]
+position = Vector2(-192, -14)
+shape = SubResource("RectangleShape2D_js0lu")
+one_way_collision = true
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="Ground"]
+position = Vector2(-192, 50)
+shape = SubResource("RectangleShape2D_js0lu")
+one_way_collision = true
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Ground"]
+position = Vector2(-192, 82)
+shape = SubResource("RectangleShape2D_js0lu")
+one_way_collision = true
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Ground"]
+position = Vector2(-168, 32)
+shape = SubResource("RectangleShape2D_v2yb1")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Ground"]
+position = Vector2(-216, 32)
+shape = SubResource("RectangleShape2D_v2yb1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+position = Vector2(184, 128)
+shape = SubResource("RectangleShape2D_wljb1")
 
 [node name="Green" type="Area2D" parent="."]
 position = Vector2(549, 95)
@@ -273,24 +336,6 @@ sprite_frames = SubResource("SpriteFrames_qhcbd")
 animation = &"idle"
 autoplay = "idle"
 frame_progress = 0.379744
-
-[node name="Ground" type="StaticBody2D" parent="."]
-position = Vector2(158, 23)
-
-[node name="Parallax2D" type="Parallax2D" parent="Ground"]
-scroll_offset = Vector2(0, 614)
-repeat_size = Vector2(640, 0)
-repeat_times = 51
-
-[node name="Teeth2" type="Sprite2D" parent="Ground/Parallax2D"]
-texture_filter = 1
-position = Vector2(2, -331)
-scale = Vector2(-1, -1)
-texture = ExtResource("2_bhx41")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
-position = Vector2(0, -1)
-shape = SubResource("WorldBoundaryShape2D_f1jbl")
 
 [node name="RedAlive" type="CharacterBody2D" parent="."]
 position = Vector2(160, 90)
