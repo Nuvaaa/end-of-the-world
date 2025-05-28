@@ -4,6 +4,7 @@ signal VelY(value)
 
 signal PosX(value)
 signal Start_Dialogue(value)
+signal HeyRed(position, hover, facingLeft)
 
 var block_input = 0
 
@@ -17,12 +18,10 @@ var dialogue
 var dialogue_cooldown = false
 
 var hover = false
-var thover = false
-var smokeParticle = 1
 
 func _ready():
-	$AnimatedSprite2D.play()
-	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+	$Cyan.play()
+	#Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 
 func input():
 	if block_input > 0:
@@ -59,27 +58,13 @@ func input():
 		
 		if !hover and Input.is_action_pressed("special") and velocity.y >= 0:
 			hover = true
-			
-	if hover != thover:
-		if smokeParticle == 1:
-			$GPUParticles2D1.emitting = true
-			smokeParticle = 2
-		elif smokeParticle == 2: 
-			$GPUParticles2D2.emitting = true
-			smokeParticle = 3
-		elif smokeParticle == 3: 
-			$GPUParticles2D3.emitting = true
-			smokeParticle = 4
-		elif smokeParticle == 4: 
-			$GPUParticles2D4.emitting = true
-			smokeParticle = 1
-		thover = hover
-		
+		elif !Input.is_action_pressed("special"):
+			hover = false
 	
 	if Input.is_action_pressed("move_left"):
-		$AnimatedSprite2D.flip_h = true
+		$Cyan.flip_h = true
 	if Input.is_action_pressed("move_right"):
-		$AnimatedSprite2D.flip_h = false
+		$Cyan.flip_h = false
 	
 func _on_dialogue_ended() -> void:
 	block_input -= 1
@@ -109,26 +94,22 @@ func _physics_process(_delta):
 	
 	if is_on_floor():
 		if velocity.x != 0:
-			$AnimatedSprite2D.animation = "walk"
+			$Cyan.animation = "walk"
 		else:
-			$AnimatedSprite2D.animation = "idle"
+			$Cyan.animation = "idle"
 	elif !hover:
 		if velocity.y < 0:
-			$AnimatedSprite2D.animation = "rise"
+			$Cyan.animation = "rise"
 		else:
-			$AnimatedSprite2D.animation = "fall"
+			$Cyan.animation = "fall"
 	if hover:
-		$AnimatedSprite2D.animation = "hover"
-		$AnimatedSprite2D.offset.x = 1
-		$AnimatedSprite2D.offset.y = -4
-	else:
-		$AnimatedSprite2D.offset.x = 0
-		$AnimatedSprite2D.offset.y = 0
+		$Cyan.animation = "hover"
 	
 	emit_signal("VelX", velocity.x)
 	emit_signal("VelY", velocity.y)
 	emit_signal("PosX", position.x)
 	move_and_slide()
+	emit_signal("HeyRed", position, hover, $Cyan.flip_h)
 
 func _on_npc_dialogue_range(name):
 	dialogue = name

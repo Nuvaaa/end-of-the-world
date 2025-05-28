@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://bwgnq6qm0dskt"]
+[gd_scene load_steps=47 format=3 uid="uid://bwgnq6qm0dskt"]
 
 [ext_resource type="Texture2D" uid="uid://bih28g1sg3rgp" path="res://sprites/Ocean/sky.png" id="1_pl11u"]
 [ext_resource type="Texture2D" uid="uid://f07wunq6c5ec" path="res://sprites/Ocean/teeth.png" id="2_bhx41"]
@@ -27,6 +27,7 @@
 [ext_resource type="Script" uid="uid://cve6y0gwev13r" path="res://scripts/UI.gd" id="24_fedci"]
 [ext_resource type="Script" uid="uid://cl4w8itlllxt4" path="res://scripts/red.gd" id="24_wljb1"]
 [ext_resource type="Texture2D" uid="uid://c7nuucyvu5u5i" path="res://sprites/box.png" id="25_8qswn"]
+[ext_resource type="Texture2D" uid="uid://cxn1qx745xi8f" path="res://sprites/smoke.png" id="25_suyxu"]
 [ext_resource type="Texture2D" uid="uid://ceyugct46dhbb" path="res://sprites/Red/hover_0.png" id="25_wljb1"]
 [ext_resource type="Texture2D" uid="uid://cescip2t350lm" path="res://sprites/Red/float_0.png" id="26_sgl2t"]
 [ext_resource type="Texture2D" uid="uid://0nsx5o3y0ki8" path="res://sprites/Red/hover_1.png" id="26_v2yb1"]
@@ -128,6 +129,29 @@ animations = [{
 "name": &"walk",
 "speed": 10.0
 }]
+
+[sub_resource type="Curve" id="Curve_sww3w"]
+_data = [Vector2(0.525926, 1), 0.0, 0.0233362, 0, 0, Vector2(1, 0), -2.83146, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_suyxu"]
+curve = SubResource("Curve_sww3w")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sww3w"]
+particle_flag_disable_z = true
+angle_min = -720.0
+angle_max = 720.0
+inherit_velocity_ratio = 0.5
+direction = Vector3(1, 1, 1)
+spread = 180.0
+initial_velocity_min = 48.28
+initial_velocity_max = 94.43
+angular_velocity_min = -91.56
+angular_velocity_max = 70.75
+gravity = Vector3(0, -20, 0)
+damping_min = 69.942
+damping_max = 100.0
+scale_curve = SubResource("CurveTexture_suyxu")
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_qhcbd"]
 animations = [{
@@ -244,7 +268,59 @@ debug_color = Color(0.725017, 0.403927, 0.663884, 0.42)
 [node name="Cyan" type="AnimatedSprite2D" parent="Player"]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_iotsf")
-animation = &"idle"
+animation = &"hover"
+
+[node name="GPUParticles2D1" type="GPUParticles2D" parent="Player"]
+visible = false
+texture_filter = 1
+position = Vector2(0, -14)
+scale = Vector2(0.5, 0.5)
+emitting = false
+amount = 5
+sub_emitter = NodePath(".")
+texture = ExtResource("25_suyxu")
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_sww3w")
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="Player"]
+visible = false
+texture_filter = 1
+position = Vector2(0, -14)
+scale = Vector2(0.5, 0.5)
+emitting = false
+amount = 5
+sub_emitter = NodePath(".")
+texture = ExtResource("25_suyxu")
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_sww3w")
+
+[node name="GPUParticles2D3" type="GPUParticles2D" parent="Player"]
+visible = false
+texture_filter = 1
+position = Vector2(0, -14)
+scale = Vector2(0.5, 0.5)
+emitting = false
+amount = 5
+sub_emitter = NodePath(".")
+texture = ExtResource("25_suyxu")
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_sww3w")
+
+[node name="GPUParticles2D4" type="GPUParticles2D" parent="Player"]
+visible = false
+texture_filter = 1
+position = Vector2(0, -14)
+scale = Vector2(0.5, 0.5)
+emitting = false
+amount = 5
+sub_emitter = NodePath(".")
+texture = ExtResource("25_suyxu")
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_sww3w")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(0, -21)
@@ -293,7 +369,6 @@ position = Vector2(0, -1)
 shape = SubResource("WorldBoundaryShape2D_f1jbl")
 
 [node name="RedAlive" type="CharacterBody2D" parent="."]
-position = Vector2(160, 90)
 script = ExtResource("24_wljb1")
 
 [node name="Red" type="AnimatedSprite2D" parent="RedAlive"]
