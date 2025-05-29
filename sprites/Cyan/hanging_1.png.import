@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://sopqg0a05my4"
-path="res://.godot/imported/hover_0.png-003ab5ec6acef65bc53c9730f69972cc.ctex"
+uid="uid://dliomkhwg5poj"
+path="res://.godot/imported/hanging_1.png-50030b17644374546cd4844ca8aab1c6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/Cyan/hover_0.png"
-dest_files=["res://.godot/imported/hover_0.png-003ab5ec6acef65bc53c9730f69972cc.ctex"]
+source_file="res://sprites/Cyan/hanging_1.png"
+dest_files=["res://.godot/imported/hanging_1.png-50030b17644374546cd4844ca8aab1c6.ctex"]
 
 [params]
 

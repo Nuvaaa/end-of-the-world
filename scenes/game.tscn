@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=4 uid="uid://bwgnq6qm0dskt"]
+[gd_scene load_steps=51 format=4 uid="uid://bwgnq6qm0dskt"]
 
 [ext_resource type="Texture2D" uid="uid://bih28g1sg3rgp" path="res://sprites/Ocean/sky.png" id="1_pl11u"]
 [ext_resource type="Texture2D" uid="uid://f07wunq6c5ec" path="res://sprites/Ocean/teeth.png" id="2_bhx41"]
@@ -12,8 +12,10 @@
 [ext_resource type="Texture2D" uid="uid://dr76ref4pvkby" path="res://sprites/Cyan/idle_0.png" id="10_js0lu"]
 [ext_resource type="Texture2D" uid="uid://b1738wp3nsxv6" path="res://sprites/Cyan/hanging_0.png" id="10_qouja"]
 [ext_resource type="Texture2D" uid="uid://ck2sc3dj7a8en" path="res://sprites/Cyan/idle_1.png" id="11_gxtfn"]
+[ext_resource type="Texture2D" uid="uid://dliomkhwg5poj" path="res://sprites/Cyan/hanging_1.png" id="12_gxtfn"]
 [ext_resource type="Texture2D" uid="uid://c5aq62qa8kc33" path="res://sprites/Cyan/idle_2.png" id="12_twgab"]
 [ext_resource type="Texture2D" uid="uid://b3gnfncx1bjm7" path="res://sprites/Cyan/jump_0.png" id="13_02fa5"]
+[ext_resource type="Texture2D" uid="uid://i0b1xoke3tt5" path="res://sprites/Cyan/hanging_2.png" id="13_twgab"]
 [ext_resource type="Texture2D" uid="uid://blyx82jpavsty" path="res://sprites/Cyan/jump_1.png" id="14_nepv3"]
 [ext_resource type="Texture2D" uid="uid://b3txps33pigus" path="res://sprites/Cyan/walk_0.png" id="15_7025r"]
 [ext_resource type="Texture2D" uid="uid://dl8f8vi8wjjvr" path="res://sprites/Cyan/walk_1.png" id="16_m4url"]
@@ -32,6 +34,7 @@
 [ext_resource type="Texture2D" uid="uid://cescip2t350lm" path="res://sprites/Red/float_0.png" id="26_sgl2t"]
 [ext_resource type="Texture2D" uid="uid://0nsx5o3y0ki8" path="res://sprites/Red/hover_1.png" id="26_v2yb1"]
 [ext_resource type="Texture2D" uid="uid://u1kmj0sc17x3" path="res://sprites/Red/hover_2.png" id="27_js0lu"]
+[ext_resource type="Texture2D" uid="uid://5ay5uk1qnh2o" path="res://sprites/Red/float_1.png" id="28_v2yb1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_js0lu"]
 texture = ExtResource("25_v2yb1")
@@ -90,6 +93,12 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("10_qouja")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_gxtfn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_twgab")
 }],
 "loop": true,
 "name": &"hover",
@@ -169,10 +178,13 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("26_sgl2t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_v2yb1")
 }],
 "loop": true,
 "name": &"float",
-"speed": 5.0
+"speed": 1.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -272,7 +284,7 @@ position = Vector2(184, 128)
 shape = SubResource("RectangleShape2D_wljb1")
 
 [node name="Green" type="Area2D" parent="."]
-position = Vector2(549, 95)
+position = Vector2(549, 104)
 script = ExtResource("3_qnb83")
 
 [node name="Interact" type="Sprite2D" parent="Green"]
@@ -295,7 +307,7 @@ autoplay = "idle"
 frame_progress = 0.429632
 
 [node name="Player" type="CharacterBody2D" parent="."]
-position = Vector2(160, 111)
+position = Vector2(-33, -8)
 script = ExtResource("7_qouja")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
@@ -315,7 +327,7 @@ limit_smoothed = true
 position_smoothing_enabled = true
 
 [node name="Red" type="Area2D" parent="."]
-position = Vector2(423, 123)
+position = Vector2(423, 132)
 script = ExtResource("3_qnb83")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Red"]
@@ -346,6 +358,7 @@ texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_gxtfn")
 animation = &"float"
 autoplay = "float"
+frame_progress = 0.0863889
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RedAlive"]
 shape = SubResource("CircleShape2D_wljb1")

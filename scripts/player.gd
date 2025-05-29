@@ -18,6 +18,7 @@ var dialogue
 var dialogue_cooldown = false
 
 var hover = false
+var coyoteFrames = 0
 
 func _ready():
 	$Cyan.play()
@@ -39,9 +40,6 @@ func input():
 		elif dialogue_cooldown:
 			dialogue_cooldown = false
 		
-		if Input.is_action_just_pressed("jump"):
-			velocity.y = jump * -1
-		
 		if Input.is_action_pressed("move_right"):
 			velocity.x = speed
 		elif Input.is_action_pressed("move_left"):
@@ -50,6 +48,7 @@ func input():
 			velocity.x = 0
 			
 		hover = false
+		coyoteFrames = 8
 	else:
 		if Input.is_action_pressed("move_right") and velocity.x < speed:
 			velocity.x += speed / 30
@@ -60,6 +59,14 @@ func input():
 			hover = true
 		elif !Input.is_action_pressed("special"):
 			hover = false
+		
+		if coyoteFrames > 0:
+			coyoteFrames -= 1
+	
+	if is_on_floor() or coyoteFrames > 0:
+		if Input.is_action_just_pressed("jump"):
+			velocity.y = jump * -1
+			coyoteFrames = 0
 	
 	if Input.is_action_pressed("move_left"):
 		$Cyan.flip_h = true
