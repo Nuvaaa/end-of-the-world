@@ -20,6 +20,9 @@ var dialogue_cooldown = false
 var hover = false
 var coyoteFrames = 0
 
+var lastMovementTime = 0
+var sitting = false
+
 func _ready():
 	$Cyan.play()
 	#Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
@@ -98,9 +101,16 @@ func _physics_process(_delta):
 	if velocity.y > speed * 3:
 		velocity.y = speed * 3
 	
-	
 	if is_on_floor():
-		if velocity.x != 0:
+		if Time.get_ticks_msec() - lastMovementTime >= 7000:
+			if $Cyan.frame == 0 and $Cyan.animation == "idle":
+				$Cyan.animation = "sit"
+			elif $Cyan.frame == 6 and sitting:
+				$Cyan.animation = "sitting"
+			elif $Cyan.frame > 0 and $Cyan.animation == "sit":
+				sitting = true
+		elif velocity.x != 0:
+			sitting = false
 			$Cyan.animation = "walk"
 		else:
 			$Cyan.animation = "idle"
@@ -111,12 +121,14 @@ func _physics_process(_delta):
 			$Cyan.animation = "fall"
 	if hover:
 		$Cyan.animation = "hover"
+	if velocity != Vector2.ZERO or block_input > 0:
+		lastMovementTime = Time.get_ticks_msec()
 	
 	emit_signal("VelX", velocity.x)
 	emit_signal("VelY", velocity.y)
 	emit_signal("PosX", position.x)
 	move_and_slide()
-	emit_signal("HeyRed", position, hover, $Cyan.flip_h)
+	emit_signal("HeyRed", position, hover, sitting, $Cyan.flip_h)
 
 func _on_npc_dialogue_range(name):
 	dialogue = name

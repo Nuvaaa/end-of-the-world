@@ -1,21 +1,34 @@
 extends CharacterBody2D
 var plrPos
 var hovering
+var sit
 var flip
 var grabbed
 var lastDistance
 
-func _on_player_hey_red(position, hover, facingLeft):
+func _on_player_hey_red(position, hover, sitting, facingLeft):
 	plrPos = position + Vector2(0, -16)
 	hovering = hover
+	sit = sitting
 	flip = facingLeft
 	
 func _process(delta):
-	if hovering:
+	if sit:
+		if grabbed:
+			position = plrPos - Vector2((int(!flip) * 2 - 1) * 2, -5)
+			$Red.animation = "idle"
+			$Red.flip_h = !flip
+		else:
+			$Red.animation = "float"
+			velocity = (plrPos - Vector2((int(!flip) * 2 - 1) * 2, -5) - position)
+			velocity = velocity.normalized() * 5
+			move_and_slide()
+			if position.distance_to(plrPos - Vector2((int(!flip) * 2 - 1) * 2, -5)) < 0.1:
+				grabbed = true
+	elif hovering:
 		$Red.animation = "hover"
 		if grabbed:
 			position = plrPos
-			$Red.flip_h = flip
 		else:
 			velocity = (plrPos - position)
 			velocity = velocity.normalized() * 600
@@ -26,9 +39,8 @@ func _process(delta):
 	else:
 		grabbed = false
 		$Red.animation = "float"
-		velocity = ((plrPos + Vector2(0, -5)) - position) * 3
+		velocity = ((plrPos + Vector2((int(flip) * 2 - 1) * 14, -5)) - position) * 3
 		move_and_slide()
-		if velocity.x != 0:
-			$Red.flip_h = velocity.x < 0
+	$Red.flip_h = flip
 	lastDistance = position.distance_to(plrPos)
 	
