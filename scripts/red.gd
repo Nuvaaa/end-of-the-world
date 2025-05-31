@@ -26,10 +26,11 @@ func _process(delta):
 			if position.distance_to(plrPos - Vector2((int(!flip) * 2 - 1) * 2, -5)) < 0.1:
 				grabbed = true
 	elif hovering:
-		$Red.animation = "hover"
 		if grabbed:
 			position = plrPos
+			$Red.animation = "hover"
 		else:
+			$Red.animation = "float"
 			velocity = (plrPos - position)
 			velocity = velocity.normalized() * 600
 			move_and_slide()

@@ -39,6 +39,7 @@ func input():
 	if is_on_floor():
 		if dialogue != null and Input.is_action_just_pressed("interact") and !dialogue_cooldown:
 			emit_signal("Start_Dialogue", dialogue)
+			sitting = false
 			block_input += 1
 		elif dialogue_cooldown:
 			dialogue_cooldown = false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=4 uid="uid://bwgnq6qm0dskt"]
+[gd_scene load_steps=64 format=4 uid="uid://bwgnq6qm0dskt"]
 
 [ext_resource type="Texture2D" uid="uid://bih28g1sg3rgp" path="res://sprites/Ocean/sky.png" id="1_huc1o"]
 [ext_resource type="Texture2D" uid="uid://f07wunq6c5ec" path="res://sprites/Ocean/teeth.png" id="2_rejwl"]
@@ -43,7 +43,8 @@
 [ext_resource type="Texture2D" uid="uid://0nsx5o3y0ki8" path="res://sprites/Red/hover_1.png" id="32_bk0sd"]
 [ext_resource type="Texture2D" uid="uid://u1kmj0sc17x3" path="res://sprites/Red/hover_2.png" id="33_bwow6"]
 [ext_resource type="Script" uid="uid://cve6y0gwev13r" path="res://scripts/UI.gd" id="34_c0alv"]
-[ext_resource type="Texture2D" uid="uid://c7nuucyvu5u5i" path="res://sprites/box.png" id="35_36wk8"]
+[ext_resource type="Texture2D" uid="uid://brwjk8b7kdkho" path="res://sprites/dialogue/border.png" id="45_qly32"]
+[ext_resource type="FontFile" uid="uid://dmr3remikyryp" path="res://fonts/JosefinSans-SemiBold.ttf" id="45_vid6a"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_js0lu"]
 texture = ExtResource("3_skxra")
@@ -268,8 +269,21 @@ font_size = 10
 outline_size = 1
 outline_color = Color(0, 0, 0, 1)
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5b0tb"]
+blend_mode = 2
+
+[sub_resource type="Gradient" id="Gradient_w5qgn"]
+offsets = PackedFloat32Array(0, 0.1, 0.9, 1)
+colors = PackedColorArray(0.678431, 0.380392, 0.380392, 0, 0.678431, 0.380392, 0.380392, 1, 0.678431, 0.380392, 0.380392, 1, 0.678431, 0.380392, 0.380392, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_e10r1"]
+gradient = SubResource("Gradient_w5qgn")
+width = 1024
+height = 1024
+
 [sub_resource type="LabelSettings" id="LabelSettings_iotsf"]
-line_spacing = -2.0
+line_spacing = 0.0
+font = ExtResource("45_vid6a")
 font_size = 6
 
 [sub_resource type="ImageTexture" id="ImageTexture_hb5m1"]
@@ -440,20 +454,29 @@ autowrap_mode = 3
 layout_mode = 3
 anchors_preset = 0
 
-[node name="Box" type="Sprite2D" parent="UI/DialogueBox"]
+[node name="Box" type="Polygon2D" parent="UI/DialogueBox"]
+material = SubResource("CanvasItemMaterial_5b0tb")
+position = Vector2(397, 163)
+texture = SubResource("GradientTexture2D_e10r1")
+polygon = PackedVector2Array(-348, -36, -348, 16, -126, 16, -126, -36)
+uv = PackedVector2Array(-1.57952e-06, -5.96046e-08, -9.53674e-06, 1024, 1024, 1024, 1024, -9.53674e-07)
+
+[node name="border" type="Sprite2D" parent="UI/DialogueBox/Box"]
 texture_filter = 1
-position = Vector2(160, 153)
-texture = ExtResource("35_36wk8")
+position = Vector2(-237, -10)
+texture = ExtResource("45_qly32")
 
 [node name="Text" type="Label" parent="UI/DialogueBox"]
 layout_mode = 0
-offset_left = 69.0
-offset_top = 129.0
-offset_right = 253.0
-offset_bottom = 175.0
-text = "(You should go put on your hat"
+offset_left = 70.0
+offset_top = 132.0
+offset_right = 250.0
+offset_bottom = 174.0
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+"
 label_settings = SubResource("LabelSettings_iotsf")
 autowrap_mode = 3
+text_overrun_behavior = 2
 
 [node name="Portrait" type="Sprite2D" parent="UI/DialogueBox"]
 position = Vector2(0, 180)
