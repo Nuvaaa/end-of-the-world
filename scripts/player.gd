@@ -25,7 +25,6 @@ var sitting = false
 
 func _ready():
 	$Cyan.play()
-	#Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 
 func input():
 	if block_input > 0:

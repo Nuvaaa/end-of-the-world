@@ -21,6 +21,8 @@ func _ready():
 	$DialogueBox/Text.visible = false
 	$DialogueBox/Portrait.self_modulate.a = 0
 	$DialogueBox/Box.scale.y = 0
+	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+	$Debug.visible = false
 
 func load_file(file):
 	var d_file = FileAccess.open("res://dialogue/" + file + ".json", FileAccess.READ)
@@ -54,6 +56,14 @@ func next_line():
 	tempText = dialogue[current_line]['text']
 
 func _input(event):
+	if event.is_action_pressed("debug"):
+		if $Debug.visible:
+			$Debug.visible = false
+			Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+		else:
+			$Debug.visible = true
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+			
 	if !d_active:
 		return false
 	if event.is_action_pressed("interact"):

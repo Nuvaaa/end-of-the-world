@@ -2,14 +2,14 @@ extends Area2D
 signal dialogue(value)
 
 func _ready():
-	$Interact.visible = false
+	$AnimatedSprite2D.material.set_shader_parameter("line_color", Vector4(1, 1, 1, 0))
 
 func _on_body_entered(body):
-	$Interact.visible = true
+	$AnimatedSprite2D.material.set_shader_parameter("line_color", Vector4(1, 1, 1, 1))
 	emit_signal("dialogue", name)
 
 func _on_body_exited(_body):
-	$Interact.visible = false
+	$AnimatedSprite2D.material.set_shader_parameter("line_color", Vector4(1, 1, 1, 0))
 	emit_signal("dialogue", null)
 
 func _on_player_pos_x(value):

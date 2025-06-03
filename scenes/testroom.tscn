@@ -1,10 +1,9 @@
-[gd_scene load_steps=64 format=4 uid="uid://bwgnq6qm0dskt"]
+[gd_scene load_steps=66 format=4 uid="uid://bwgnq6qm0dskt"]
 
 [ext_resource type="Texture2D" uid="uid://bih28g1sg3rgp" path="res://sprites/Ocean/sky.png" id="1_huc1o"]
 [ext_resource type="Texture2D" uid="uid://f07wunq6c5ec" path="res://sprites/Ocean/teeth.png" id="2_rejwl"]
 [ext_resource type="Texture2D" uid="uid://b0dpk4mm7mlp1" path="res://sprites/tempTerrain.png" id="3_skxra"]
 [ext_resource type="Script" uid="uid://d0lyqyih0dmje" path="res://scripts/npc.gd" id="4_k256q"]
-[ext_resource type="Texture2D" uid="uid://bkgepoxotg5o4" path="res://sprites/Interact.png" id="5_6kxjp"]
 [ext_resource type="Texture2D" uid="uid://xqdewes5ovky" path="res://sprites/Green/idle_0.png" id="6_iia5t"]
 [ext_resource type="Texture2D" uid="uid://bjyaw236ycqxc" path="res://sprites/Green/idle_1.png" id="7_er25m"]
 [ext_resource type="Script" uid="uid://kjhguage8fg1" path="res://scripts/player.gd" id="8_e6wgx"]
@@ -43,6 +42,7 @@
 [ext_resource type="Texture2D" uid="uid://0nsx5o3y0ki8" path="res://sprites/Red/hover_1.png" id="32_bk0sd"]
 [ext_resource type="Texture2D" uid="uid://u1kmj0sc17x3" path="res://sprites/Red/hover_2.png" id="33_bwow6"]
 [ext_resource type="Script" uid="uid://cve6y0gwev13r" path="res://scripts/UI.gd" id="34_c0alv"]
+[ext_resource type="Shader" uid="uid://b38pvh4yll6oa" path="res://shaders/outline.gdshader" id="35_qly32"]
 [ext_resource type="Texture2D" uid="uid://brwjk8b7kdkho" path="res://sprites/dialogue/border.png" id="45_qly32"]
 [ext_resource type="FontFile" uid="uid://dmr3remikyryp" path="res://fonts/JosefinSans-SemiBold.ttf" id="45_vid6a"]
 
@@ -68,6 +68,11 @@ size = Vector2(944, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x5p1p"]
 size = Vector2(76, 59)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qly32"]
+shader = ExtResource("35_qly32")
+shader_parameter/line_color = Color(1, 1, 1, 0)
+shader_parameter/line_thickness = 1.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5b14r"]
 animations = [{
@@ -208,6 +213,11 @@ animations = [{
 "name": &"walk",
 "speed": 10.0
 }]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5b0tb"]
+shader = ExtResource("35_qly32")
+shader_parameter/line_color = Color(1, 1, 1, 0)
+shader_parameter/line_thickness = 1.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_qhcbd"]
 animations = [{
@@ -361,12 +371,6 @@ shape = SubResource("RectangleShape2D_wljb1")
 position = Vector2(549, 104)
 script = ExtResource("4_k256q")
 
-[node name="Interact" type="Sprite2D" parent="Green"]
-texture_filter = 1
-position = Vector2(0.5, -3.24998)
-scale = Vector2(1, 1.05556)
-texture = ExtResource("5_6kxjp")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Green"]
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_x5p1p")
@@ -374,6 +378,7 @@ debug_color = Color(0.57036, 0.555939, 3.85046e-07, 0.42)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Green"]
 texture_filter = 1
+material = SubResource("ShaderMaterial_qly32")
 position = Vector2(0, 16)
 sprite_frames = SubResource("SpriteFrames_5b14r")
 animation = &"idle"
@@ -409,14 +414,9 @@ position = Vector2(4, -27.5)
 shape = SubResource("RectangleShape2D_x5p1p")
 debug_color = Color(0.57036, 0.555939, 3.85046e-07, 0.42)
 
-[node name="Interact" type="Sprite2D" parent="Red"]
-texture_filter = 1
-position = Vector2(4.5, -39.5)
-scale = Vector2(1, 1.05556)
-texture = ExtResource("5_6kxjp")
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Red"]
 texture_filter = 1
+material = SubResource("ShaderMaterial_5b0tb")
 position = Vector2(0, -23)
 sprite_frames = SubResource("SpriteFrames_qhcbd")
 animation = &"idle"
@@ -441,7 +441,6 @@ disabled = true
 script = ExtResource("34_c0alv")
 
 [node name="Debug" type="Label" parent="UI"]
-visible = false
 offset_left = -2.0
 offset_right = 318.0
 offset_bottom = 180.0
