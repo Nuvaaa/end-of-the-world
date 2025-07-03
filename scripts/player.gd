@@ -12,16 +12,16 @@ var gravity = 5
 var speed = 90
 var jump = 150
 var maxSpeed = 315
-var spawnpoint = position
 
 var dialogue
 var dialogue_cooldown = false
 
 var hover = false
 var coyoteFrames = 0
-
 var lastMovementTime = 0
 var sitting = false
+var grabbing = false
+var jumpBuffer = 0
 
 func _ready():
 	$Cyan.play()
@@ -31,9 +31,15 @@ func input():
 		velocity.x = 0
 		return false
 	
-	if Input.is_action_just_pressed("respawn"):
-		position = spawnpoint
-		velocity = Vector2.ZERO
+	if grabbing:
+		velocity.y = 0
+		if not Input.is_action_pressed("left") and not Input.is_action_pressed("right") or not $RayCast2DGrab.is_colliding():
+			grabbing = false
+	else:
+		if $RayCast2DGrab.target_position.x == -7 and Input.is_action_pressed("left") and not $RayCast2DCheck.is_colliding() and $RayCast2DGrab.is_colliding() and velocity.y >= 0:
+			grabbing = true
+		elif $RayCast2DGrab.target_position.x == 7 and Input.is_action_pressed("right") and not $RayCast2DCheck.is_colliding() and $RayCast2DGrab.is_colliding() and velocity.y >= 0:
+			grabbing = true
 	
 	if is_on_floor():
 		if dialogue != null and Input.is_action_just_pressed("interact") and !dialogue_cooldown:
@@ -43,9 +49,9 @@ func input():
 		elif dialogue_cooldown:
 			dialogue_cooldown = false
 		
-		if Input.is_action_pressed("move_right"):
+		if Input.is_action_pressed("right"):
 			velocity.x = speed
-		elif Input.is_action_pressed("move_left"):
+		elif Input.is_action_pressed("left"):
 			velocity.x = speed * -1
 		else:
 			velocity.x = 0
@@ -53,28 +59,42 @@ func input():
 		hover = false
 		coyoteFrames = 8
 	else:
-		if Input.is_action_pressed("move_right") and velocity.x < speed:
+		if Input.is_action_pressed("right") and velocity.x < speed:
 			velocity.x += speed / 30
-		elif Input.is_action_pressed("move_left") and velocity.x > speed * -1:
+		elif Input.is_action_pressed("left") and velocity.x > speed * -1:
 			velocity.x -= speed / 30
 		
 		if !hover and Input.is_action_pressed("special") and velocity.y >= 0:
 			hover = true
 		elif !Input.is_action_pressed("special"):
 			hover = false
+		if grabbing:
+			hover = false
 		
 		if coyoteFrames > 0:
 			coyoteFrames -= 1
 	
-	if is_on_floor() or coyoteFrames > 0:
-		if Input.is_action_just_pressed("jump"):
+	if is_on_floor() or coyoteFrames > 0 or grabbing:
+		if Input.is_action_just_pressed("jump") or jumpBuffer > 0:
 			velocity.y = jump * -1
 			coyoteFrames = 0
+			grabbing = false
+			jumpBuffer = 0
+	elif Input.is_action_just_pressed("jump"):
+		jumpBuffer = 5
+	elif not Input.is_action_pressed("jump"):
+		jumpBuffer = 0
+	if jumpBuffer > 0:
+		jumpBuffer -= 1
 	
-	if Input.is_action_pressed("move_left"):
+	if Input.is_action_pressed("left"):
 		$Cyan.flip_h = true
-	if Input.is_action_pressed("move_right"):
+		$RayCast2DGrab.target_position.x = -7
+		$RayCast2DCheck.target_position.x = -7
+	if Input.is_action_pressed("right"):
 		$Cyan.flip_h = false
+		$RayCast2DGrab.target_position.x = 7
+		$RayCast2DCheck.target_position.x = 7
 	
 func _on_dialogue_ended() -> void:
 	block_input -= 1
@@ -117,6 +137,8 @@ func _physics_process(_delta):
 	elif !hover:
 		if velocity.y < 0:
 			$Cyan.animation = "rise"
+		elif grabbing:
+			$Cyan.animation = "grab"
 		else:
 			$Cyan.animation = "fall"
 	if hover:

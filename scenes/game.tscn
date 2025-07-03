@@ -1,4 +1,4 @@
-[gd_scene load_steps=84 format=4 uid="uid://bwgnq6qm0dskt"]
+[gd_scene load_steps=87 format=4 uid="uid://bwgnq6qm0dskt"]
 
 [ext_resource type="Script" uid="uid://bp5b3p04rdolq" path="res://scripts/visiblecollision.gd" id="1_458eo"]
 [ext_resource type="Texture2D" uid="uid://bih28g1sg3rgp" path="res://sprites/Ocean/sky.png" id="1_oaba0"]
@@ -26,8 +26,10 @@
 [ext_resource type="Texture2D" uid="uid://ck2sc3dj7a8en" path="res://sprites/Cyan/idle_1.png" id="17_66xif"]
 [ext_resource type="Texture2D" uid="uid://c5aq62qa8kc33" path="res://sprites/Cyan/idle_2.png" id="18_bnuda"]
 [ext_resource type="Texture2D" uid="uid://b3gnfncx1bjm7" path="res://sprites/Cyan/jump_0.png" id="19_0rmfi"]
+[ext_resource type="Texture2D" uid="uid://djdgdypus24vk" path="res://sprites/Cyan/grab_0.png" id="20_q8j3a"]
 [ext_resource type="Texture2D" uid="uid://blyx82jpavsty" path="res://sprites/Cyan/jump_1.png" id="20_xbak0"]
 [ext_resource type="Texture2D" uid="uid://u5byh4e2aevf" path="res://sprites/Cyan/sit_0.png" id="21_3x28f"]
+[ext_resource type="Texture2D" uid="uid://rhnyk568d6dx" path="res://sprites/Cyan/grab_1.png" id="21_ms3bu"]
 [ext_resource type="Texture2D" uid="uid://816efgr6ji80" path="res://sprites/Cyan/sit_1.png" id="22_l6q63"]
 [ext_resource type="Texture2D" uid="uid://hd3i1af8d417" path="res://sprites/Cyan/sit_2.png" id="23_mmvbu"]
 [ext_resource type="Texture2D" uid="uid://bgwa3sqja4r2l" path="res://sprites/Cyan/sit_3.png" id="24_weeiq"]
@@ -50,9 +52,10 @@
 [ext_resource type="Texture2D" uid="uid://0nsx5o3y0ki8" path="res://sprites/Red/hover_1.png" id="41_flw08"]
 [ext_resource type="Texture2D" uid="uid://u1kmj0sc17x3" path="res://sprites/Red/hover_2.png" id="42_84hbc"]
 [ext_resource type="Script" uid="uid://cve6y0gwev13r" path="res://scripts/UI.gd" id="43_15b3c"]
-[ext_resource type="Script" uid="uid://d4bekjcfhv41w" path="res://scenes/camera_2d.gd" id="44_o8ni1"]
+[ext_resource type="Script" uid="uid://d4bekjcfhv41w" path="res://scripts/camera_2d.gd" id="44_o8ni1"]
 [ext_resource type="Texture2D" uid="uid://brwjk8b7kdkho" path="res://sprites/dialogue/border.png" id="44_veukt"]
 [ext_resource type="FontFile" uid="uid://dmr3remikyryp" path="res://fonts/JosefinSans-SemiBold.ttf" id="45_nbjts"]
+[ext_resource type="Script" uid="uid://dthnq06ib1bm5" path="res://scenes/fade.gd" id="54_ms3bu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_js0lu"]
 texture = ExtResource("3_h3rex")
@@ -68,6 +71,9 @@ sources/0 = SubResource("TileSetAtlasSource_js0lu")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_js0lu"]
 size = Vector2(32, 4)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o8ni1"]
+size = Vector2(48, 48)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v2yb1"]
 size = Vector2(16, 96)
 
@@ -79,7 +85,7 @@ size = Vector2(76, 59)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qly32"]
 shader = ExtResource("5_8qswn")
-shader_parameter/line_color = Color(1, 1, 1, 0)
+shader_parameter/line_color = Color(1, 1, 1, 1)
 shader_parameter/line_thickness = 1.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5b14r"]
@@ -114,8 +120,6 @@ animations = [{
 "name": &"idle",
 "speed": 1.0
 }]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_i4re6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8qswn"]
 shader = ExtResource("5_8qswn")
@@ -190,6 +194,17 @@ animations = [{
 "loop": true,
 "name": &"fall",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("20_q8j3a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_ms3bu")
+}],
+"loop": true,
+"name": &"grab",
+"speed": 3.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -341,11 +356,6 @@ animations = [{
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wljb1"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_eow3j"]
-font_size = 10
-outline_size = 1
-outline_color = Color(0, 0, 0, 1)
-
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5b0tb"]
 blend_mode = 2
 
@@ -364,6 +374,11 @@ font = ExtResource("45_nbjts")
 font_size = 6
 
 [sub_resource type="ImageTexture" id="ImageTexture_hb5m1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_eow3j"]
+font_size = 10
+outline_size = 1
+outline_color = Color(0, 0, 0, 1)
 
 [node name="Game" type="Node2D"]
 
@@ -403,13 +418,17 @@ tile_set = SubResource("TileSet_gxtfn")
 
 [node name="tiles" type="TileMapLayer" parent="TestRoom/Ground"]
 texture_filter = 1
-tile_map_data = PackedByteArray("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")
+tile_map_data = PackedByteArray("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")
 tile_set = SubResource("TileSet_gxtfn")
 
 [node name="CollisionShape2D7" type="CollisionShape2D" parent="TestRoom/Ground"]
 position = Vector2(-192, 18)
 shape = SubResource("RectangleShape2D_js0lu")
 one_way_collision = true
+
+[node name="CollisionShape2D8" type="CollisionShape2D" parent="TestRoom/Ground"]
+position = Vector2(152, 88)
+shape = SubResource("RectangleShape2D_o8ni1")
 
 [node name="CollisionShape2D6" type="CollisionShape2D" parent="TestRoom/Ground"]
 position = Vector2(-192, -14)
@@ -478,6 +497,7 @@ position = Vector2(-272, 48)
 script = ExtResource("1_458eo")
 
 [node name="Polygon2D" type="Polygon2D" parent="TestRoom/House"]
+self_modulate = Color(1, 1, 1, 0)
 position = Vector2(-227, -94)
 color = Color(0, 0, 0, 1)
 polygon = PackedVector2Array(-181, -197, 615, -197, 615, 339, -181, 339)
@@ -495,14 +515,9 @@ texture_filter = 1
 position = Vector2(212, 45)
 texture = ExtResource("3_8qswn")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TestRoom/House/Ground"]
-position = Vector2(195, 103)
-shape = SubResource("RectangleShape2D_i4re6")
-one_way_collision = true
-
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TestRoom/House/Ground"]
 position = Vector2(182, 204)
-polygon = PackedVector2Array(25, -133, 170, -134, 170, -175, -111, -213, -111, -78, 71, -78, 77, -74, 85, -74, 91, -70, 100, -70, 106, -66, 174, -66, 178, -64, 178, -62, -115, -62, -115, -230, 174, -187, 174, -94, 170, -94, 170, -127, 25, -127)
+polygon = PackedVector2Array(25, -132, 170, -132, 170, -175, -111, -213, -111, -78, 71, -78, 77, -74, 85, -74, 91, -70, 100, -70, 106, -66, 174, -66, 178, -64, 178, -62, -115, -62, -115, -230, 174, -187, 174, -94, 170, -94, 170, -126, 25, -126)
 
 [node name="Couch" type="Area2D" parent="TestRoom/House/Ground"]
 script = ExtResource("4_fedci")
@@ -539,10 +554,11 @@ script = ExtResource("4_fedci")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="TestRoom/House/Ground/Trash"]
 texture_filter = 1
 material = SubResource("ShaderMaterial_pf7vy")
+position = Vector2(0, 1)
 sprite_frames = SubResource("SpriteFrames_o8ni1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TestRoom/House/Ground/Trash"]
-position = Vector2(0.5, -1)
+position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_3hbvx")
 debug_color = Color(0.57036, 0.555939, 3.85046e-07, 0.42)
 
@@ -570,13 +586,22 @@ debug_color = Color(0.725017, 0.403927, 0.663884, 0.42)
 [node name="Cyan" type="AnimatedSprite2D" parent="Player"]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_iotsf")
-animation = &"sitting"
+animation = &"idle"
+frame_progress = 0.942426
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(0, -21)
 limit_smoothed = true
 position_smoothing_enabled = true
 script = ExtResource("44_o8ni1")
+
+[node name="RayCast2DGrab" type="RayCast2D" parent="Player"]
+position = Vector2(0, 1)
+target_position = Vector2(7, 0)
+
+[node name="RayCast2DCheck" type="RayCast2D" parent="Player"]
+position = Vector2(0, -1)
+target_position = Vector2(7, 0)
 
 [node name="RedAlive" type="CharacterBody2D" parent="."]
 position = Vector2(160, 90)
@@ -595,18 +620,17 @@ disabled = true
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource("43_15b3c")
 
-[node name="Debug" type="Label" parent="UI"]
-offset_left = -2.0
-offset_right = 318.0
-offset_bottom = 180.0
-text = " X vel : <X>
- Y vel : <y>"
-label_settings = SubResource("LabelSettings_eow3j")
-autowrap_mode = 3
+[node name="Fade" type="Polygon2D" parent="UI"]
+visible = false
+position = Vector2(-7, -5)
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(2, 0, 332, 0, 332, 190, 2, 190)
+script = ExtResource("54_ms3bu")
 
 [node name="DialogueBox" type="Control" parent="UI"]
 layout_mode = 3
 anchors_preset = 0
+metadata/_edit_lock_ = true
 
 [node name="Box" type="Polygon2D" parent="UI/DialogueBox"]
 material = SubResource("CanvasItemMaterial_5b0tb")
@@ -635,6 +659,16 @@ text_overrun_behavior = 2
 [node name="Portrait" type="Sprite2D" parent="UI/DialogueBox"]
 position = Vector2(0, 180)
 texture = SubResource("ImageTexture_hb5m1")
+
+[node name="Debug" type="Label" parent="UI"]
+offset_left = -2.0
+offset_right = 318.0
+offset_bottom = 180.0
+text = " X vel : <X>
+ Y vel : <y>"
+label_settings = SubResource("LabelSettings_eow3j")
+autowrap_mode = 3
+metadata/_edit_lock_ = true
 
 [connection signal="body_entered" from="TestRoom/Green" to="TestRoom/Green" method="_on_body_entered"]
 [connection signal="body_exited" from="TestRoom/Green" to="TestRoom/Green" method="_on_body_exited"]
