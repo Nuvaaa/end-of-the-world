@@ -1,0 +1,139 @@
+[gd_scene load_steps=21 format=4 uid="uid://dxtqwdvk8u74p"]
+
+[ext_resource type="Texture2D" uid="uid://dvya1hd5dgetv" path="res://sprites/Cyan/fall_0.png" id="1_6m671"]
+[ext_resource type="Script" uid="uid://87v62sc7v3pa" path="res://scenes/cyan.gd" id="1_e57by"]
+[ext_resource type="Texture2D" uid="uid://dbykrsykoow3y" path="res://sprites/Cyan/fall_1.png" id="2_oaqi3"]
+[ext_resource type="Texture2D" uid="uid://dr76ref4pvkby" path="res://sprites/Cyan/idle_0.png" id="3_e57by"]
+[ext_resource type="Texture2D" uid="uid://ck2sc3dj7a8en" path="res://sprites/Cyan/idle_1.png" id="4_c1est"]
+[ext_resource type="Texture2D" uid="uid://c5aq62qa8kc33" path="res://sprites/Cyan/idle_2.png" id="5_8uxfj"]
+[ext_resource type="Texture2D" uid="uid://b3gnfncx1bjm7" path="res://sprites/Cyan/jump_0.png" id="6_t37oy"]
+[ext_resource type="Texture2D" uid="uid://blyx82jpavsty" path="res://sprites/Cyan/jump_1.png" id="7_dmf7q"]
+[ext_resource type="Texture2D" uid="uid://b3txps33pigus" path="res://sprites/Cyan/walk_0.png" id="8_n4xau"]
+[ext_resource type="Texture2D" uid="uid://dl8f8vi8wjjvr" path="res://sprites/Cyan/walk_1.png" id="9_xlaod"]
+[ext_resource type="Texture2D" uid="uid://cugpsdo0loerg" path="res://sprites/Cyan/walk_2.png" id="10_uhesp"]
+[ext_resource type="Texture2D" uid="uid://bw7cm0m7o5ey5" path="res://sprites/Cyan/walk_3.png" id="11_5e3ba"]
+[ext_resource type="Texture2D" uid="uid://bmaeavcf8h8ah" path="res://sprites/Cyan/walk_4.png" id="12_t520e"]
+[ext_resource type="Texture2D" uid="uid://d0yrk6clvk6f5" path="res://sprites/Cyan/walk_5.png" id="13_pep73"]
+[ext_resource type="Texture2D" uid="uid://cku5ayplmy3vw" path="res://sprites/Cyan/walk_6.png" id="14_gf6fr"]
+[ext_resource type="Texture2D" uid="uid://b0dpk4mm7mlp1" path="res://sprites/tempTerrain.png" id="16_c1est"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8uxfj"]
+texture = ExtResource("16_c1est")
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:0/0/custom_data_0 = 1.0
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8)
+1:0/0/custom_data_0 = 1.0
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, -8, 8)
+2:0/0/custom_data_0 = 1.0
+0:1/0 = 0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, -4, -8, -4)
+0:1/0/custom_data_0 = 1.0
+1:1/0 = 0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -5, 8, -8, 5)
+1:1/0/custom_data_0 = 1.0
+2:1/0 = 0
+2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 5, 5, 8, -8, 8)
+2:1/0/custom_data_0 = 1.0
+0:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_t37oy"]
+physics_layer_0/collision_layer = 1
+custom_data_layer_0/name = "friction"
+custom_data_layer_0/type = 3
+sources/0 = SubResource("TileSetAtlasSource_8uxfj")
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6rkul"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_6m671")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_oaqi3")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_e57by")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_c1est")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_e57by")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_8uxfj")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_t37oy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_dmf7q")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_n4xau")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_xlaod")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_uhesp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_5e3ba")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_t520e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_pep73")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_gf6fr")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_da7em"]
+size = Vector2(10, 24)
+
+[node name="ForestA" type="Node2D"]
+
+[node name="Ground" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD+/wEAAAAAAAAAAAD//wEAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAEAAAAAAAAAAAACAAEAAAAAAAAAAAACAAIAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAD//wIAAAAAAAAAAAD+/wIAAAAAAAAAAAD9/wIAAAAAAAAAAAD9/wEAAAAAAAAAAAADAAEAAAAAAAAAAAADAAIAAAAAAAAAAAAEAAIAAAAAAAAAAAAEAAEAAAAAAAAAAAD8/wEAAAAAAAAAAAD8/wIAAAAAAAAAAAD7/wIAAAAAAAAAAAD7/wEAAAAAAAAAAAD6/wEAAAAAAAAAAAD5/wEAAAAAAAAAAAD5/wIAAAAAAAAAAAD6/wIAAAAAAAAAAAAFAAEAAAAAAAAAAAAGAAEAAAAAAAAAAAAGAAIAAAAAAAAAAAAFAAIAAAAAAAAAAAAHAAEAAAAAAAAAAAAIAAEAAAAAAAAAAAAIAAIAAAAAAAAAAAAHAAIAAAAAAAAAAAD4/wEAAAAAAAAAAAD3/wEAAAAAAAAAAAD3/wIAAAAAAAAAAAD4/wIAAAAAAAAAAAAJAAEAAAAAAAAAAAAJAAAAAAAAAAAAAAAJAP//AAAAAAAAAAAKAP//AAAAAAAAAAAKAAAAAAAAAAAAAAAKAAEAAAAAAAAAAAAKAAIAAAAAAAAAAAAJAAIAAAAAAAAAAAAKAP7/AAAAAAAAAAAJAP7/AAABAAEAAAAGAP7/AAAAAAEAAAAFAP7/AAAAAAEAAAAGAP3/AAACAAEAAAAFAP3/AAAAAAAAAAA=")
+tile_set = SubResource("TileSet_t37oy")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Cyan" type="CharacterBody2D" parent="."]
+position = Vector2(0, 1)
+script = ExtResource("1_e57by")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Cyan"]
+sprite_frames = SubResource("SpriteFrames_6rkul")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.4030544
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cyan"]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_da7em")

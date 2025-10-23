@@ -12,7 +12,7 @@ config_version=5
 
 config/name="End of the World"
 run/main_scene="uid://b8lhpl8vhiu67"
-config/features=PackedStringArray("4.4", "Mobile")
+config/features=PackedStringArray("4.5", "Mobile")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
 config/icon="res://icon.svg"
@@ -74,4 +74,5 @@ debug={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="mobile"
