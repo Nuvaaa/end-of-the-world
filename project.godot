@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="End of the World"
-run/main_scene="uid://b8lhpl8vhiu67"
+run/main_scene="uid://lqy8n2qtmwvj"
 config/features=PackedStringArray("4.5", "Mobile")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
@@ -21,8 +21,7 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=320
 window/size/viewport_height=180
-window/size/mode=2
-window/stretch/mode="canvas_items"
+window/size/mode=3
 
 [input]
 

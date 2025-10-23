@@ -1,7 +1,8 @@
-[gd_scene load_steps=21 format=4 uid="uid://dxtqwdvk8u74p"]
+[gd_scene load_steps=22 format=4 uid="uid://dxtqwdvk8u74p"]
 
 [ext_resource type="Texture2D" uid="uid://dvya1hd5dgetv" path="res://sprites/Cyan/fall_0.png" id="1_6m671"]
-[ext_resource type="Script" uid="uid://87v62sc7v3pa" path="res://scenes/cyan.gd" id="1_e57by"]
+[ext_resource type="Script" uid="uid://87v62sc7v3pa" path="res://scripts/cyan.gd" id="1_e57by"]
+[ext_resource type="Script" uid="uid://3havru4oex37" path="res://scripts/subpixel_camera.gd" id="2_c1est"]
 [ext_resource type="Texture2D" uid="uid://dbykrsykoow3y" path="res://sprites/Cyan/fall_1.png" id="2_oaqi3"]
 [ext_resource type="Texture2D" uid="uid://dr76ref4pvkby" path="res://sprites/Cyan/idle_0.png" id="3_e57by"]
 [ext_resource type="Texture2D" uid="uid://ck2sc3dj7a8en" path="res://sprites/Cyan/idle_1.png" id="4_c1est"]
@@ -123,12 +124,16 @@ tile_map_data = PackedByteArray("AAD+/wEAAAAAAAAAAAD//wEAAAAAAAAAAAAAAAEAAAAAAAA
 tile_set = SubResource("TileSet_t37oy")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+texture_filter = 1
+position = Vector2(0, 1)
+script = ExtResource("2_c1est")
 
 [node name="Cyan" type="CharacterBody2D" parent="."]
 position = Vector2(0, 1)
 script = ExtResource("1_e57by")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Cyan"]
+texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_6rkul")
 animation = &"idle"
 autoplay = "idle"
